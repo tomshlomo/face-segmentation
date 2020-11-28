@@ -1,7 +1,6 @@
 import os
-
 import numpy as np
-from model import CNN
+from model import CNN, UNet, UNetLight
 from dataset import train_loader, val_loader
 from tqdm import tqdm
 from torch.optim import Adam
@@ -12,13 +11,13 @@ import plotly.express as px
 import visualizations as vis
 from utils import accuracy
 
-model = CNN(hidden_channels=[64, 64])
+model = UNetLight(n_channels=train_loader.dataset.num_channels, n_classes=train_loader.dataset.num_classes, k=32)
 optimizer = Adam(model.parameters(), lr=3e-4)
 scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, factor=0.2, patience=2, cooldown=2)
 loss_fcn = nn.CrossEntropyLoss(weight=train_loader.dataset.class_weights())
 save_path = os.path.join('saved_models', str(datetime.now()) + '.pt')
-n_epochs = 32
-plot_every = n_epochs//3
+n_epochs = 100
+plot_every = 10
 train_loss_list = []
 valid_loss_list = []
 train_acc_list = []

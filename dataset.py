@@ -41,6 +41,8 @@ class Dataset(torch.utils.data.Dataset):
         self.label_folder = label_folder
         self.list_IDs = os.listdir(self.rgb_folder)
         self.transform = transform
+        self.num_classes = len(rgb2name)
+        self.num_channels = 3
 
     def __len__(self):
         # Denotes the total number of samples

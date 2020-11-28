@@ -130,3 +130,30 @@ class UNet(nn.Module):
         x = self.up4(x, x1)
         x = self.outc(x)
         return x
+
+class UNetLight(nn.Module):
+    def __init__(self, n_channels, n_classes, k=8):
+        super(UNetLight, self).__init__()
+        self.inc = InConv(n_channels, k)
+        self.down1 = Down(k, k*2)
+        self.down2 = Down(k*2, k*4)
+        self.down3 = Down(k*4, k*8)
+        self.down4 = Down(k*8, k*8)
+        self.up1 = Up(k*16, k*4, False)
+        self.up2 = Up(k*8, k*2, False)
+        self.up3 = Up(k*4, k, False)
+        self.up4 = Up(k*2, k, False)
+        self.outc = OutConv(k, n_classes)
+
+    def forward(self, x):
+        x1 = self.inc(x)
+        x2 = self.down1(x1)
+        x3 = self.down2(x2)
+        x4 = self.down3(x3)
+        x5 = self.down4(x4)
+        x = self.up1(x5, x4)
+        x = self.up2(x, x3)
+        x = self.up3(x, x2)
+        x = self.up4(x, x1)
+        x = self.outc(x)
+        return x
