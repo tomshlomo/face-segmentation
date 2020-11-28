@@ -4,7 +4,6 @@ import torch
 import os
 import numpy as np
 import cv2
-import albumentations as albu
 
 rgb2name = OrderedDict()
 rgb2name[(255, 0, 0)] = 'background'
@@ -69,27 +68,3 @@ class Dataset(torch.utils.data.Dataset):
         w = 1.0 / w
         w /= torch.sum(w)
         return w
-
-#
-# mean = (0.485, 0.456, 0.406)
-# std = (0.229, 0.224, 0.225)
-# ratio = 1.44
-# size = [int(100*r) for r in [ratio, 1]]
-# train_transform = albu.Compose([albu.HorizontalFlip(p=0.5),
-#                                 albu.ShiftScaleRotate(shift_limit=0.05, scale_limit=0.05, rotate_limit=15, p=0.5),
-#                                 albu.RGBShift(r_shift_limit=25, g_shift_limit=25, b_shift_limit=25, p=0.5),
-#                                 albu.RandomBrightnessContrast(brightness_limit=0.3, contrast_limit=0.3, p=0.5),
-#                                 albu.Resize(*size),
-#                                 albu.Normalize(mean=mean, std=std)])
-# val_transform = albu.Compose([albu.Resize(*size),
-#                               albu.Normalize(mean=mean, std=std)])
-#
-# params = {'batch_size': 32,
-#           'shuffle': True,
-#           'num_workers': 0}
-#
-# train_set = Dataset('data/Train_RGB', 'data/Train_Labels', train_transform)
-# train_loader = torch.utils.data.DataLoader(train_set, **params)
-#
-# val_set = Dataset('data/Test_RGB', 'data/Test_Labels', val_transform)
-# val_loader = torch.utils.data.DataLoader(val_set, **params)
