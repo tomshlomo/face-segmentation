@@ -21,7 +21,6 @@ def read_image(path):
 
 
 def rgb2masks(img):
-    C = len(rgb2name)
     rgb_vals = np.array(list(rgb2name.keys())).T
     rgb_vals = rgb_vals.astype(np.float)
     img = img.astype(np.float)
